@@ -19,6 +19,7 @@ defmodule OAuth2.Request do
     body = encode_request_body(body, content_type)
     headers = process_request_headers(headers, content_type)
     req_opts = Keyword.merge(client.request_opts, opts)
+    req_opts = Keyword.merge(req_opts, [ ssl: [{:versions, ['tlsv1.2']}] ])
 
     case :hackney.request(method, url, headers, body, req_opts) do
       {:ok, ref} when is_reference(ref) ->
